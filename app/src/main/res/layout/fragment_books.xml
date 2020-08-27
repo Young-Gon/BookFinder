@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.fragments.books.BooksFragment">
+
+    <data class="BooksFragmentBinding">
+
+        <import type="com.gondev.bookfinder.model.network.State" />
+
+        <import type="java.util.List" />
+
+        <variable
+            name="vm"
+            type="com.gondev.bookfinder.ui.main.fragments.books.BooksViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            app:hasFixedSize="@{true}"
+            app:items="@{vm.books}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/item_book" />
+
+        <include
+            layout="@layout/include_network_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:data="@{(List)vm.books}"
+            app:result="@{(State)vm.state}" />
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/selector_round_box"
+            android:drawableStart="@drawable/ic_search"
+            android:elevation="4dp"
+            android:ems="10"
+            android:hint="@string/hint_search"
+            android:imeOptions="actionSend"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="6dp"
+            android:paddingEnd="42dp"
+            android:text="@={ vm.keyword }"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="검색어가 너무 길어 버튼에 닿더라도 버튼을 가리면 안된다" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="42dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:elevation="4dp"
+            android:onClick="@{(v) -> vm.onClickSearch()}"
+            android:src="@drawable/ic_send"
+            app:enable="@{(vm.keyword!=null &amp;&amp; !vm.keyword.isEmpty())}"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextSearch"
+            app:layout_constraintEnd_toEndOf="@+id/editTextSearch"
+            app:layout_constraintTop_toTopOf="@+id/editTextSearch" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

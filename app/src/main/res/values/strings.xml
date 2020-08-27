@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">BookFinder</string>
+    <string name="error_network">네트워크 오류 입니다.</string>
+    <string name="empty_item">아이템이 없습니다.</string>
+    <string name="hint_search">Search...</string>
+</resources>
