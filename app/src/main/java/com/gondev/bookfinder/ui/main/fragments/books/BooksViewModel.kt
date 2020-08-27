@@ -54,8 +54,10 @@ class BooksViewModel(
     fun loadDataFromNetwork() {
         val query = this.query.value
         Timber.i("query=${query}, offset=${offset}")
-        if (query == null || query.isEmpty())
+        if (query == null || query.isEmpty()) {
+            state.value = State.success()
             return
+        }
 
         viewModelScope.launch {
             state.value = State.loading()
@@ -82,10 +84,16 @@ class BooksViewModel(
     }
 
     val keyword = MutableLiveData("")
-    fun onClickSearch() {
-        keyword.value?.let {
-            Timber.i("start searching '${it}...")
-            query.value=it
-        }
+    val requestKeyboardHide = MutableLiveData<Event<Boolean>>()
+    fun onClickSearch(): Boolean {
+        val keyword = this.keyword.value
+        if (keyword == null || keyword.isEmpty())
+            return false
+
+        Timber.i("start searching '${keyword}...")
+        query.value = keyword
+        requestKeyboardHide.value = Event(true)
+
+        return true
     }
 }

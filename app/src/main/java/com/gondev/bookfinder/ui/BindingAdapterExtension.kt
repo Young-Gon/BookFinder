@@ -3,7 +3,9 @@ package com.gondev.bookfinder.ui
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
@@ -37,6 +39,11 @@ fun SwipeRefreshLayout.setOnRefreshPageListener(listener: SwipeRefreshLayout.OnR
 @BindingAdapter("visibleGone")
 fun View.showHide(show: Boolean) {
     visibility = if (show) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("action")
+fun EditText.setActionBinding(listener: TextView.OnEditorActionListener) {
+    setOnEditorActionListener(listener)
 }
 
 @BindingAdapter("items")

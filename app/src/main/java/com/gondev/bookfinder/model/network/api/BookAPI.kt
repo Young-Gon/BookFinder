@@ -15,6 +15,6 @@ interface BookAPI {
     suspend fun requestBooks(
         @Query("q") query: String,
         @Query("maxResults") pageSize: Int = 20,
-        @Query("startIndex ") offset: Int = 0,
+        @Query("startIndex") offset: Int = 0,
     ): Result
 }
