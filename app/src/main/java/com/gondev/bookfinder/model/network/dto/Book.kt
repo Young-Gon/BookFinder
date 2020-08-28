@@ -32,7 +32,7 @@ data class VolumeInfo(
 	val subtitle: String?,
 	val authors: List<String>?,
 	val publishedDate: String?,
-	val description: String,
+	val description: String?,
 	val pageCount: Int,
 	val averageRating: Float,
 	val ratingsCount: Int,

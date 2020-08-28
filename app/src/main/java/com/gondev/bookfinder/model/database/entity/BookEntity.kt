@@ -13,7 +13,7 @@ data class BookEntity (
 	val subtitle: String?,
 	val authors: String,
 	val publishedDate: String?,
-	val description: String,
+	val description: String?,
 	val pageCount: Int,
 	val averageRating: Float,
 	val ratingsCount: Int,
