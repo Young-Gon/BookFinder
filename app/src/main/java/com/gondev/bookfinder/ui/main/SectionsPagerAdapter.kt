@@ -1,8 +1,8 @@
 package com.gondev.bookfinder.ui.main
 
-import android.content.Context
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.gondev.bookfinder.R
 import com.gondev.bookfinder.ui.main.fragments.books.BooksFragment
 import com.gondev.bookfinder.ui.main.fragments.bookshelf.BookShelfFragment
@@ -17,17 +17,14 @@ const val SECTION_FAVORITES = 1
  * @see [BooksFragment]
  * @see [BookShelfFragment]
  */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class SectionsPagerAdapter(fragmentActivity: FragmentActivity) :
+    FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItem(position: Int) = when (position) {
+    override fun createFragment(position: Int) = when (position) {
         SECTION_TRENDING -> BooksFragment()
         SECTION_FAVORITES -> BookShelfFragment()
         else -> throw IllegalArgumentException("지원하지 않는 페이지 입니다")
     }
 
-    override fun getPageTitle(position: Int) =
-        context.resources.getStringArray(R.array.tab_title)[position]
-
-    override fun getCount() = 2
+    override fun getItemCount() = 2
 }
