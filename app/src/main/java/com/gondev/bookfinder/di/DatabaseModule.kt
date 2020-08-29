@@ -20,4 +20,6 @@ val roomModule = module {
 	}
 
 	single {  get<AppDatabase>().getBookDao() }
+
+	single {  get<AppDatabase>().getKeywordDao() }
 }

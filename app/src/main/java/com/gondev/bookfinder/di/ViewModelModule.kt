@@ -1,6 +1,7 @@
 package com.gondev.bookfinder.di
 
 import com.gondev.bookfinder.ui.main.fragments.books.BooksViewModel
+import com.gondev.bookfinder.ui.search.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -9,4 +10,5 @@ import org.koin.dsl.module
  */
 val viewModelModule = module {
 	viewModel { BooksViewModel(get(), get()) }
+	viewModel { SearchViewModel(get()) }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
@@ -39,6 +40,11 @@ fun SwipeRefreshLayout.setOnRefreshPageListener(listener: SwipeRefreshLayout.OnR
 @BindingAdapter("visibleGone")
 fun View.showHide(show: Boolean) {
     visibility = if (show) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("transitionName")
+fun View.setTransitionNameBinding(name: String) {
+    transitionName = name
 }
 
 @BindingAdapter("action")
@@ -119,5 +125,5 @@ class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
 
 @BindingAdapter("enable")
 fun View.setEnableBinding(enable: Boolean) {
-    isEnabled=enable
+    isEnabled = enable
 }

@@ -21,8 +21,8 @@ data class Book(
 		pageCount = volumeInfo.pageCount,
 		averageRating = volumeInfo.averageRating,
 		ratingsCount = volumeInfo.ratingsCount,
-		smallThumbnail = volumeInfo.imageLinks.smallThumbnail,
-		thumbnail = volumeInfo.imageLinks.thumbnail,
+		smallThumbnail = volumeInfo.imageLinks?.smallThumbnail,
+		thumbnail = volumeInfo.imageLinks?.thumbnail,
 		language = volumeInfo.language,
 	)
 }
@@ -36,11 +36,11 @@ data class VolumeInfo(
 	val pageCount: Int,
 	val averageRating: Float,
 	val ratingsCount: Int,
-	val imageLinks: ImageLinks,
+	val imageLinks: ImageLinks?,
 	val language: String,
 )
 
 data class ImageLinks(
-	val smallThumbnail: String,
-	val thumbnail: String,
+	val smallThumbnail: String?,
+	val thumbnail: String?,
 )

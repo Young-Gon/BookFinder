@@ -1,6 +1,5 @@
 package com.gondev.bookfinder.ui.main.fragments.books
 
-import android.text.TextUtils
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -11,7 +10,6 @@ import com.gondev.bookfinder.model.network.api.BookAPI
 import com.gondev.bookfinder.util.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.NullPointerException
 
 /**
  * 한번에 가저올 GIF목록 크기 입니다
@@ -83,17 +81,8 @@ class BooksViewModel(
         requestOpenDetailActivity.value = Event(item)
     }
 
-    val keyword = MutableLiveData("")
-    val requestKeyboardHide = MutableLiveData<Event<Boolean>>()
-    fun onClickSearch(): Boolean {
-        val keyword = this.keyword.value
-        if (keyword == null || keyword.isEmpty())
-            return false
-
-        Timber.i("start searching '${keyword}...")
-        query.value = keyword
-        requestKeyboardHide.value = Event(true)
-
-        return true
+    val requestOpenSearchActivity = MutableLiveData<Event<Boolean>>()
+    fun onClickSearch() {
+        requestOpenSearchActivity.value = Event(true)
     }
 }

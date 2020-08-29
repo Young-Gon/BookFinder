@@ -17,7 +17,7 @@ data class BookEntity (
 	val pageCount: Int,
 	val averageRating: Float,
 	val ratingsCount: Int,
-	val smallThumbnail: String,
-	val thumbnail: String,
+	val smallThumbnail: String?,
+	val thumbnail: String?,
 	val language: String,
 )

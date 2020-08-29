@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView
  * binding.vm = getViewModel() // binding 객체에 VM 전달
  * binding.lifecycleOwner = this  // 데이터 변화를 관찰 하기 위해 binding 객체에 lifecycleOwner 등록
  * binding.Recyclerview.adapter =
- *     RecyclerViewBindingAdapter<Item, ItemBinding>(
+ *     DataBindingAdapter<Item, ItemBinding>(
  *         R.layout.item,
  *         BR.item,
  *         object : DiffUtil.ItemCallback<Item>() {
@@ -70,7 +70,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param param OPTIONAL (가변 인자) 레이아웃의 data 영역에 추가로 바인딩 될 변수의 ID와 Value 쌍
  * @see BindingViewHolder
  */
-class RecyclerViewBindingAdapter<T, V : ViewDataBinding>(
+class DataBindingAdapter<T, V : ViewDataBinding>(
     @LayoutRes private val layoutResId: Int,
     private val bindingVariableId: Int? = null,
     diffCallback: DiffUtil.ItemCallback<T>,
@@ -89,7 +89,7 @@ class RecyclerViewBindingAdapter<T, V : ViewDataBinding>(
                 param.forEach {
                     setVariable(it.first, it.second)
                 }
-                this@RecyclerViewBindingAdapter.lifecycleOwner?.let {
+                this@DataBindingAdapter.lifecycleOwner?.let {
                     lifecycleOwner = it
                 }
             }, bindingVariableId

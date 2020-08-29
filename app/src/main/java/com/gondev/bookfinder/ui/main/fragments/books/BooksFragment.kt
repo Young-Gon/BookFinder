@@ -1,11 +1,13 @@
 package com.gondev.bookfinder.ui.main.fragments.books
 
-import android.content.Context
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import com.gondev.bookfinder.BR
@@ -13,9 +15,16 @@ import com.gondev.bookfinder.R
 import com.gondev.bookfinder.databinding.BookItemBinding
 import com.gondev.bookfinder.databinding.BooksFragmentBinding
 import com.gondev.bookfinder.model.database.entity.BookEntity
-import com.gondev.bookfinder.ui.RecyclerViewBindingAdapter
+import com.gondev.bookfinder.ui.KeyboardVisibilityDelegation
+import com.gondev.bookfinder.ui.DataBindingAdapter
+import com.gondev.bookfinder.ui.search.startActivityFromFragment
 import com.gondev.bookfinder.util.EventObserver
+import kotlinx.android.synthetic.main.fragment_books.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import java.lang.IllegalArgumentException
+
+
+private const val REQUST_CODE_SEARCH = 1
 
 /**
  * 서치바 엑션
@@ -26,6 +35,10 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class BooksFragment : Fragment() {
 
     lateinit var binding: BooksFragmentBinding
+
+    val keyboard: KeyboardVisibilityDelegation by lazy {
+        KeyboardVisibilityDelegation((activity!!.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +53,7 @@ class BooksFragment : Fragment() {
 
         binding.vm = getViewModel()
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.recyclerView.adapter = RecyclerViewBindingAdapter<BookEntity, BookItemBinding>(
+        binding.recyclerView.adapter = DataBindingAdapter<BookEntity, BookItemBinding>(
             layoutResId = R.layout.item_book,
             bindingVariableId = BR.book,
             diffCallback = object : DiffUtil.ItemCallback<BookEntity>() {
@@ -54,13 +67,26 @@ class BooksFragment : Fragment() {
             BR.vm to binding.vm!!,
         )
 
-        binding.vm?.requestKeyboardHide?.observe(viewLifecycleOwner, EventObserver {
-            if (it) {
-                binding.editTextSearch.clearFocus()
-                val inputMethodManager =
-                    activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(binding.editTextSearch.windowToken, 0)
-            }
+        binding.vm?.requestOpenSearchActivity?.observe(viewLifecycleOwner, EventObserver {
+            keyboard.showKeyboard()
+
+            (activity as? AppCompatActivity)?.startActivityFromFragment(this@BooksFragment, REQUST_CODE_SEARCH, textViewSearch)
         })
+
+        binding.vm?.requestOpenDetailActivity?.observe(viewLifecycleOwner, EventObserver {
+
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode==Activity.RESULT_OK)
+            when (requestCode) {
+                REQUST_CODE_SEARCH ->
+                    binding.vm?.query?.value=data?.getStringExtra("keyword")
+                else ->
+                    throw IllegalArgumentException("지원 하지 않는 코드입니다 (requestCode=$requestCode)")
+            }
     }
 }
