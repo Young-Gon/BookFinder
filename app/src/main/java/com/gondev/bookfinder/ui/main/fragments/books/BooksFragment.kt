@@ -8,15 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DiffUtil
 import com.gondev.bookfinder.BR
-import com.gondev.bookfinder.R
-import com.gondev.bookfinder.databinding.BookItemBinding
 import com.gondev.bookfinder.databinding.BooksFragmentBinding
-import com.gondev.bookfinder.model.database.entity.BookEntity
-import com.gondev.bookfinder.ui.BindingViewHolder
-import com.gondev.bookfinder.ui.DataBindingAdapter
-import com.gondev.bookfinder.ui.search.startActivityFromFragment
+import com.gondev.bookfinder.ui.main.fragments.ExpandableDataBindingAdapter
+import com.gondev.bookfinder.ui.search.startSearchActivityFromFragment
 import com.gondev.bookfinder.util.EventObserver
 import kotlinx.android.synthetic.main.fragment_books.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -25,10 +20,11 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 private const val REQUST_CODE_SEARCH = 1
 
 /**
- * 서치바 엑션
- * https://medium.com/@alexstyl/https-medium-com-alexstyl-animating-the-toolbar-7a8f1aab39dd
- * 에니메이션
- * https://www.droidcon.com/news-detail?content-id=/repository/collaboration/Groups/spaces/droidcon_hq/Documents/public/news/android-news/Complex%20UI%20-%20Animations%20on%20Android
+ * 도서 탭입니다
+ * 도서 목록을 검색하고 [SearchActivity][com.gondev.bookfinder.ui.search.SearchActivity]를 호출합니다
+ *
+ * @see [MainActivity][com.gondev.bookfinder.ui.main.MainActivity]
+ * @see [BooksViewModel]
  */
 class BooksFragment : Fragment() {
 
@@ -47,43 +43,11 @@ class BooksFragment : Fragment() {
 
         binding.vm = getViewModel()
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.recyclerView.adapter = object : DataBindingAdapter<BookEntity, BookItemBinding>(
-            layoutResId = R.layout.item_book,
-            bindingVariableId = BR.book,
-            diffCallback = object : DiffUtil.ItemCallback<BookEntity>() {
-                override fun areItemsTheSame(oldItem: BookEntity, newItem: BookEntity) =
-                    oldItem.id == newItem.id
-
-                override fun areContentsTheSame(oldItem: BookEntity, newItem: BookEntity) =
-                    oldItem == newItem
-            },
-            lifecycleOwner = viewLifecycleOwner,
-            BR.vm to binding.vm!!,
-        ){
-            private var expandedPosition = -1
-
-            override fun onBindViewHolder(
-                holder: BindingViewHolder<BookEntity, BookItemBinding>,
-                position: Int
-            ) {
-                super.onBindViewHolder(holder, position)
-                if (position == expandedPosition) {
-                    holder.binding.textVeweDescription.visibility = View.VISIBLE
-                } else {
-                    holder.binding.textVeweDescription.visibility = View.GONE
-                }
-                holder.binding.root.setOnClickListener {
-                    expandedPosition = if (expandedPosition == position) -1 else {
-                        notifyItemChanged(expandedPosition)
-                        position
-                    }
-                    notifyItemChanged(position)
-                }
-            }
-        }
+        binding.recyclerView.adapter =
+            ExpandableDataBindingAdapter(viewLifecycleOwner, BR.vm to binding.vm!!)
 
         binding.vm?.requestOpenSearchActivity?.observe(viewLifecycleOwner, EventObserver {
-            (activity as? AppCompatActivity)?.startActivityFromFragment(
+            (activity as? AppCompatActivity)?.startSearchActivityFromFragment(
                 this@BooksFragment,
                 REQUST_CODE_SEARCH,
                 textViewSearch
@@ -96,8 +60,13 @@ class BooksFragment : Fragment() {
 
         if (resultCode == Activity.RESULT_OK)
             when (requestCode) {
-                REQUST_CODE_SEARCH ->
+                REQUST_CODE_SEARCH -> {
+                    // 도서 목록 검색을 시작하기 전에 확장 되어있는 카드뷰를 초기화 하자
+                    (binding.recyclerView.adapter as ExpandableDataBindingAdapter).setExpandedPosition(
+                        -1
+                    )
                     binding.vm?.query?.value = data?.getStringExtra("keyword")
+                }
                 else ->
                     throw IllegalArgumentException("지원 하지 않는 코드입니다 (requestCode=$requestCode)")
             }

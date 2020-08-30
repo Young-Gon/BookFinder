@@ -19,7 +19,11 @@ import com.gondev.bookfinder.ui.DataBindingAdapter
 import com.gondev.bookfinder.util.EventObserver
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-fun AppCompatActivity.startActivityFromFragment(
+/**
+ * 트렌지션 처리와 검색한 키워드를 [BookFragment][com.gondev.bookfinder.ui.main.fragments.books.BooksFragment]에
+ * 전달 하기 위해 일반적인 startActivity 보다 복잡한 모양이 되었다
+ */
+fun AppCompatActivity.startSearchActivityFromFragment(
     fragment: Fragment,
     requestCode: Int,
     sharedElement: View
@@ -37,6 +41,10 @@ fun AppCompatActivity.startActivityFromFragment(
     )
 }
 
+/**
+ * 검색창을 표시하고 이전에 검색한 키워드 목록을 표시한다
+ * @see SearchViewModel
+ */
 class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +53,6 @@ class SearchActivity : AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.activity_search)
 
         binding.editTextSearch.transitionName = "search"
-        (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(binding.editTextSearch, 0);
         binding.vm = getViewModel()
         binding.lifecycleOwner = this
         binding.recyclerView.adapter = DataBindingAdapter<KeywordEntity, KeywordItemBinding>(
@@ -57,7 +64,6 @@ class SearchActivity : AppCompatActivity() {
 
                 override fun areContentsTheSame(oldItem: KeywordEntity, newItem: KeywordEntity) =
                     oldItem == newItem
-
             },
             lifecycleOwner = this,
             BR.vm to binding.vm!!
@@ -70,12 +76,6 @@ class SearchActivity : AppCompatActivity() {
             // 역 트렌지션 수행
             supportFinishAfterTransition()
         })
-    }
-
-    override fun finish() {
-        //keyboard.hideKeyboard()
-
-        super.finish()
     }
 
     override fun onBackPressed() {

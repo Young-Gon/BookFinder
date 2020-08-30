@@ -12,7 +12,8 @@ const val SECTION_TRENDING = 0
 const val SECTION_FAVORITES = 1
 
 /**
- * [MainActivity]에서 사용하는 [Fragment][androidx.fragment.app.Fragment]를 관리 합니다
+ * [MainActivity]에서 사용하는 [BooksFragment]와
+ * [BookShelfFragment]를 관리 합니다
  *
  * @see [BooksFragment]
  * @see [BookShelfFragment]

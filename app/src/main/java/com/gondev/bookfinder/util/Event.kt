@@ -19,7 +19,8 @@ package com.gondev.bookfinder.util
 import androidx.lifecycle.Observer
 
 /**
- * Used as a wrapper for data that is exposed via a LiveData that represents an event.
+ * livedata로 이벤트를 발생시켜 처리하게 해주는 클레스
+ * 출처: https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
  */
 open class Event<out T>(private val content: T) {
 

@@ -20,4 +20,5 @@ data class BookEntity (
 	val smallThumbnail: String?,
 	val thumbnail: String?,
 	val language: String,
+	val isOwned: Boolean = false,
 )
