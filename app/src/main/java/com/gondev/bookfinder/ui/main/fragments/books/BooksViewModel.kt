@@ -69,6 +69,11 @@ class BooksViewModel(
     }
 
     /**
+     * 총 도서 검색 결과 수 입니다
+     */
+    val result = MutableLiveData("0")
+
+    /**
      * 네트워크로 부터 offset 이후 부터 PAGE_SIZE 만큼 데이터를 가저 옵니다
      * 가저온 데이터는 데이터베이스에 저장합니다
      */
@@ -80,6 +85,7 @@ class BooksViewModel(
             return
         }
 
+        this@BooksViewModel.result.value = "0"
         viewModelScope.launch {
             state.value = State.loading()
             try {
@@ -90,6 +96,7 @@ class BooksViewModel(
                 )
 
                 dao.insert(result.items.map { it.toEntity() })
+                this@BooksViewModel.result.value = result.totalItems.toString()
                 offset += result.items.size
                 state.value = State.success()
             } catch (e: Exception) {

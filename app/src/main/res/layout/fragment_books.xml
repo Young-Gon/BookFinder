@@ -56,11 +56,15 @@
             android:gravity="center_vertical"
             android:textSize="18sp"
             android:onClick="@{(v)->vm.onClickSearch()}"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:paddingStart="6dp"
+            android:paddingEnd="98dp"
             android:text="@{ vm.query }"
             app:transitionName="@{`search`}"
             app:drawableStartCompat="@drawable/ic_search"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="검색어가 너무 길어도 검색 결과 텍스트를 덮으면 안된다"/>
 
         <TextView
             android:id="@+id/textViewGuidline"
@@ -77,6 +81,18 @@
             app:layout_constraintStart_toStartOf="@+id/textViewSearch"
             app:layout_constraintTop_toBottomOf="@+id/textViewSearch"
             app:visibleGone="@{vm.books.size()==0 &amp;&amp; (vm.query==null || vm.query.isEmpty())}" />
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="6dp"
+            android:elevation="4dp"
+            android:text="@{@string/reult(vm.result)}"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewSearch"
+            app:layout_constraintEnd_toEndOf="@+id/textViewSearch"
+            tools:text="result (1321)" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
