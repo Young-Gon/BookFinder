@@ -38,6 +38,11 @@ class ExpandableDataBindingAdapter(
     lifecycleOwner = lifecycleOwner,
     param = param,
 ) {
+    /**
+     * 확장된 카드뷰가 있는 위치
+     * 이 위치를 기준으로 확장된 카드뷰를 그리기 때문에
+     * 리사이클러뷰를 스크롤해도 엉뚱한 카드뷰가 확장 되지 않는다
+     */
     private var expandedPosition = -1
 
     override fun onBindViewHolder(

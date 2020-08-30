@@ -3,7 +3,8 @@
 
 ## 유저 스토리
 - 사용자가 `입력` 필드에 검색어를 입력합니다. (구현 완료)
-- 사용자가 검색어를 검색하면 특정 데이터(**Title, Author, Published Date, Picture** 등)가 포함된 책 목록을 반환하는 [API를 호출](https://www.notion.so/chanju/Book-Finder-App-a6a2dee0e057410292583e7a111652fa#89bbf68ae69d4fb3aa13c0821b479514) 합니다. (구현 완료)
+- 사용자가 검색어를 검색하면 특정 데이터(**Title, Author, Published Date, Picture** 등)가 포함된 책 목록을 반환하는 
+[API를 호출](https://www.notion.so/chanju/Book-Finder-App-a6a2dee0e057410292583e7a111652fa#89bbf68ae69d4fb3aa13c0821b479514) 합니다. (구현 완료)
 - 사용자는 검색된 도서 수와 전체 결과를 모두 볼 수 있습니다. (**목록 페이징**이 가능해야 합니다.)
 
 ## 필수요건
