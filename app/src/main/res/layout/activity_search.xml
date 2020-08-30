@@ -13,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <EditText
             android:id="@+id/editTextSearch"
@@ -31,9 +32,12 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="6dp"
+            android:textIsSelectable="true"
             android:text="@={ vm.keyword }"
             app:action="@{(v, actionId, event) -> vm.onClickSearch()}"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+            <requestFocus />
+        </EditText>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

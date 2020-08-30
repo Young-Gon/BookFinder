@@ -10,13 +10,12 @@ import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
-import com.gondev.bookfinder.R
 import com.gondev.bookfinder.BR
+import com.gondev.bookfinder.R
 import com.gondev.bookfinder.databinding.KeywordItemBinding
 import com.gondev.bookfinder.databinding.SearchActivityBinding
 import com.gondev.bookfinder.model.database.entity.KeywordEntity
 import com.gondev.bookfinder.ui.DataBindingAdapter
-import com.gondev.bookfinder.ui.KeyboardVisibilityDelegation
 import com.gondev.bookfinder.util.EventObserver
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -38,12 +37,7 @@ fun AppCompatActivity.startActivityFromFragment(
     )
 }
 
-
 class SearchActivity : AppCompatActivity() {
-
-    val keyboard: KeyboardVisibilityDelegation by lazy {
-        KeyboardVisibilityDelegation((getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +45,7 @@ class SearchActivity : AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.activity_search)
 
         binding.editTextSearch.transitionName = "search"
+        (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(binding.editTextSearch, 0);
         binding.vm = getViewModel()
         binding.lifecycleOwner = this
         binding.recyclerView.adapter = DataBindingAdapter<KeywordEntity, KeywordItemBinding>(
@@ -78,7 +73,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun finish() {
-        keyboard.hideKeyboard()
+        //keyboard.hideKeyboard()
 
         super.finish()
     }

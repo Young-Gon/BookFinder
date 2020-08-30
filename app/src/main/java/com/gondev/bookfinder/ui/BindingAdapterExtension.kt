@@ -63,50 +63,6 @@ fun RecyclerView.hasFixedSize(fix: Boolean) {
     setHasFixedSize(fix)
 }
 
-fun ViewGroup.setTransitionVisibilityBinding(isVisible: Boolean) {
-    val expandableView = findViewById<View>(R.id.textVeweDescription)
-    val decoration = findViewById<View>(R.id.imageView2)
-
-    if (expandableView.visibility == View.GONE) {
-
-        TransitionManager.beginDelayedTransition(this, AutoTransition())
-        expandableView.setVisibility(View.VISIBLE)
-        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp)
-    } else {
-        TransitionManager.beginDelayedTransition(this, AutoTransition())
-        expandableView.setVisibility(View.GONE)
-        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
-    }
-    /*if(expandableView.visibility==View.GONE){
-        val newConstraintSet = ConstraintSet()
-        newConstraintSet.clone(context, R.layout.item_book_expended)
-        newConstraintSet.applyTo(this.parent as ConstraintLayout?)
-        TransitionManager.beginDelayedTransition(this)
-    } else {
-        val newConstraintSet = ConstraintSet()
-        newConstraintSet.clone(context, R.layout.item_book)
-        newConstraintSet.applyTo(this.parent as ConstraintLayout?)
-        TransitionManager.beginDelayedTransition(this)
-    }*/
-    /*if(expandableView.visibility==View.GONE){
-        TransitionManager.beginDelayedTransition(this, AutoTransition())
-        expandableView.setVisibility(View.VISIBLE)
-        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp)
-    } else {
-        TransitionManager.beginDelayedTransition(this, AutoTransition())
-        expandableView.setVisibility(View.GONE)
-        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
-    }*/
-}
-
-open class SimpleTransitionListener : TransitionListener {
-    override fun onTransitionStart(transition: androidx.transition.Transition) {}
-    override fun onTransitionEnd(transition: androidx.transition.Transition) {}
-    override fun onTransitionCancel(transition: androidx.transition.Transition) {}
-    override fun onTransitionPause(transition: androidx.transition.Transition) {}
-    override fun onTransitionResume(transition: androidx.transition.Transition) {}
-}
-
 @BindingAdapter("src", "thumbnail", requireAll = true)
 fun ImageView.bindImage(src: String?, thumbnail: String?) {
     if (src == null) {
