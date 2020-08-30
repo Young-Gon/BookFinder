@@ -13,6 +13,7 @@ import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
 import androidx.transition.Transition.TransitionListener
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
@@ -66,23 +67,17 @@ fun ViewGroup.setTransitionVisibilityBinding(isVisible: Boolean) {
     val expandableView = findViewById<View>(R.id.textVeweDescription)
     val decoration = findViewById<View>(R.id.imageView2)
 
-    /*if (expandableView.visibility == View.GONE) {
+    if (expandableView.visibility == View.GONE) {
 
         TransitionManager.beginDelayedTransition(this, AutoTransition())
         expandableView.setVisibility(View.VISIBLE)
         //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp)
     } else {
-        TransitionManager.beginDelayedTransition(this, AutoTransition().apply {
-            addListener(object : SimpleTransitionListener() {
-
-                override fun onTransitionEnd(transition: androidx.transition.Transition) {
-                    expandableView.setVisibility(View.GONE)
-                }
-            })
-        })
+        TransitionManager.beginDelayedTransition(this, AutoTransition())
+        expandableView.setVisibility(View.GONE)
         //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
-    }*/
-    if(expandableView.visibility==View.GONE){
+    }
+    /*if(expandableView.visibility==View.GONE){
         val newConstraintSet = ConstraintSet()
         newConstraintSet.clone(context, R.layout.item_book_expended)
         newConstraintSet.applyTo(this.parent as ConstraintLayout?)
@@ -92,7 +87,7 @@ fun ViewGroup.setTransitionVisibilityBinding(isVisible: Boolean) {
         newConstraintSet.clone(context, R.layout.item_book)
         newConstraintSet.applyTo(this.parent as ConstraintLayout?)
         TransitionManager.beginDelayedTransition(this)
-    }
+    }*/
     /*if(expandableView.visibility==View.GONE){
         TransitionManager.beginDelayedTransition(this, AutoTransition())
         expandableView.setVisibility(View.VISIBLE)

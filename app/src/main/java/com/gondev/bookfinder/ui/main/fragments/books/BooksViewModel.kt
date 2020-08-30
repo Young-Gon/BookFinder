@@ -76,11 +76,6 @@ class BooksViewModel(
         }
     }
 
-    val requestOpenDetailActivity = MutableLiveData<Event<BookEntity>>()
-    fun onClickItem(item: BookEntity) {
-        requestOpenDetailActivity.value = Event(item)
-    }
-
     val requestOpenSearchActivity = MutableLiveData<Event<Boolean>>()
     fun onClickSearch() {
         requestOpenSearchActivity.value = Event(true)
