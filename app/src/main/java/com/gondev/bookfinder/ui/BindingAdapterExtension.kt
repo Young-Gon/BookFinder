@@ -3,15 +3,18 @@ package com.gondev.bookfinder.ui
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.ViewCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.transition.Transition.TransitionListener
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.Transformation
@@ -25,17 +28,6 @@ import com.bumptech.glide.request.transition.TransitionFactory
 import com.bumptech.glide.signature.ObjectKey
 import com.gondev.bookfinder.R
 
-@BindingAdapter("refresh")
-fun SwipeRefreshLayout.setRefresh(refresh: Boolean) {
-    if (isRefreshing != refresh)
-        isRefreshing = refresh
-}
-
-
-@BindingAdapter("onRefresh")
-fun SwipeRefreshLayout.setOnRefreshPageListener(listener: SwipeRefreshLayout.OnRefreshListener) {
-    setOnRefreshListener(listener)
-}
 
 @BindingAdapter("visibleGone")
 fun View.showHide(show: Boolean) {
@@ -70,6 +62,55 @@ fun RecyclerView.hasFixedSize(fix: Boolean) {
     setHasFixedSize(fix)
 }
 
+fun ViewGroup.setTransitionVisibilityBinding(isVisible: Boolean) {
+    val expandableView = findViewById<View>(R.id.textVeweDescription)
+    val decoration = findViewById<View>(R.id.imageView2)
+
+    /*if (expandableView.visibility == View.GONE) {
+
+        TransitionManager.beginDelayedTransition(this, AutoTransition())
+        expandableView.setVisibility(View.VISIBLE)
+        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp)
+    } else {
+        TransitionManager.beginDelayedTransition(this, AutoTransition().apply {
+            addListener(object : SimpleTransitionListener() {
+
+                override fun onTransitionEnd(transition: androidx.transition.Transition) {
+                    expandableView.setVisibility(View.GONE)
+                }
+            })
+        })
+        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
+    }*/
+    if(expandableView.visibility==View.GONE){
+        val newConstraintSet = ConstraintSet()
+        newConstraintSet.clone(context, R.layout.item_book_expended)
+        newConstraintSet.applyTo(this.parent as ConstraintLayout?)
+        TransitionManager.beginDelayedTransition(this)
+    } else {
+        val newConstraintSet = ConstraintSet()
+        newConstraintSet.clone(context, R.layout.item_book)
+        newConstraintSet.applyTo(this.parent as ConstraintLayout?)
+        TransitionManager.beginDelayedTransition(this)
+    }
+    /*if(expandableView.visibility==View.GONE){
+        TransitionManager.beginDelayedTransition(this, AutoTransition())
+        expandableView.setVisibility(View.VISIBLE)
+        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp)
+    } else {
+        TransitionManager.beginDelayedTransition(this, AutoTransition())
+        expandableView.setVisibility(View.GONE)
+        //decoration.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
+    }*/
+}
+
+open class SimpleTransitionListener : TransitionListener {
+    override fun onTransitionStart(transition: androidx.transition.Transition) {}
+    override fun onTransitionEnd(transition: androidx.transition.Transition) {}
+    override fun onTransitionCancel(transition: androidx.transition.Transition) {}
+    override fun onTransitionPause(transition: androidx.transition.Transition) {}
+    override fun onTransitionResume(transition: androidx.transition.Transition) {}
+}
 
 @BindingAdapter("src", "thumbnail", requireAll = true)
 fun ImageView.bindImage(src: String?, thumbnail: String?) {

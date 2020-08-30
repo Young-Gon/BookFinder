@@ -15,6 +15,7 @@ import com.gondev.bookfinder.R
 import com.gondev.bookfinder.databinding.BookItemBinding
 import com.gondev.bookfinder.databinding.BooksFragmentBinding
 import com.gondev.bookfinder.model.database.entity.BookEntity
+import com.gondev.bookfinder.ui.BindingViewHolder
 import com.gondev.bookfinder.ui.KeyboardVisibilityDelegation
 import com.gondev.bookfinder.ui.DataBindingAdapter
 import com.gondev.bookfinder.ui.search.startActivityFromFragment
@@ -53,7 +54,7 @@ class BooksFragment : Fragment() {
 
         binding.vm = getViewModel()
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.recyclerView.adapter = DataBindingAdapter<BookEntity, BookItemBinding>(
+        binding.recyclerView.adapter = object : DataBindingAdapter<BookEntity, BookItemBinding>(
             layoutResId = R.layout.item_book,
             bindingVariableId = BR.book,
             diffCallback = object : DiffUtil.ItemCallback<BookEntity>() {
@@ -65,7 +66,15 @@ class BooksFragment : Fragment() {
             },
             lifecycleOwner = viewLifecycleOwner,
             BR.vm to binding.vm!!,
-        )
+        ){
+            override fun onBindViewHolder(
+                holder: BindingViewHolder<BookEntity, BookItemBinding>,
+                position: Int,
+                payloads: MutableList<Any>
+            ) {
+                super.onBindViewHolder(holder, position, payloads)
+            }
+        }
 
         binding.vm?.requestOpenSearchActivity?.observe(viewLifecycleOwner, EventObserver {
             keyboard.showKeyboard()

@@ -70,7 +70,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param param OPTIONAL (가변 인자) 레이아웃의 data 영역에 추가로 바인딩 될 변수의 ID와 Value 쌍
  * @see BindingViewHolder
  */
-class DataBindingAdapter<T, V : ViewDataBinding>(
+open class DataBindingAdapter<T, V : ViewDataBinding>(
     @LayoutRes private val layoutResId: Int,
     private val bindingVariableId: Int? = null,
     diffCallback: DiffUtil.ItemCallback<T>,
