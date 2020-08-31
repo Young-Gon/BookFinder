@@ -8,5 +8,5 @@
     <string name="buy">구매</string>
     <string name="delete">삭제</string>
     <string name="empty_bookshelf">도서 목록에서 "<b>"\"마음\""</b>"에 드는\n책을 구매 해보세요 여기에 나타 납니다</string>
-    <string name="reult">Reult (%s)</string>
+    <string name="result">Result (%s)</string>
 </resources>

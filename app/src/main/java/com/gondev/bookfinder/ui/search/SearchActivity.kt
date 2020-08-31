@@ -3,7 +3,6 @@ package com.gondev.bookfinder.ui.search
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
@@ -19,6 +18,7 @@ import com.gondev.bookfinder.ui.DataBindingAdapter
 import com.gondev.bookfinder.util.EventObserver
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
+
 /**
  * 트렌지션 처리와 검색한 키워드를 [BookFragment][com.gondev.bookfinder.ui.main.fragments.books.BooksFragment]에
  * 전달 하기 위해 일반적인 startActivity 보다 복잡한 모양이 되었다
@@ -33,11 +33,12 @@ fun AppCompatActivity.startSearchActivityFromFragment(
         sharedElement,
         ViewCompat.getTransitionName(sharedElement)!!
     )
+    // 전환 에니메이션을 넣을려고 했으나 editText에 포커스가 가지 않는 문제가 발생하여 삭제
     startActivityFromFragment(
         fragment,
         Intent(this, SearchActivity::class.java),
         requestCode,
-        option.toBundle()
+        //option.toBundle()
     )
 }
 

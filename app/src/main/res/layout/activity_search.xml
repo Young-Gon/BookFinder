@@ -26,13 +26,11 @@
             android:background="@drawable/selector_round_box"
             android:drawableStart="@drawable/ic_search"
             android:elevation="4dp"
-            android:ems="10"
             android:hint="@string/hint_search"
             android:imeOptions="actionSearch"
             android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="6dp"
-            android:textIsSelectable="true"
             android:text="@={ vm.keyword }"
             app:action="@{(v, actionId, event) -> vm.onClickSearch()}"
             app:layout_constraintTop_toTopOf="parent">

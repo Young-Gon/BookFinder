@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.gondev.bookfinder.BR
+import com.gondev.bookfinder.R
 import com.gondev.bookfinder.databinding.BooksFragmentBinding
 import com.gondev.bookfinder.ui.main.fragments.ExpandableDataBindingAdapter
 import com.gondev.bookfinder.ui.search.startSearchActivityFromFragment
@@ -50,8 +52,13 @@ class BooksFragment : Fragment() {
             (activity as? AppCompatActivity)?.startSearchActivityFromFragment(
                 this@BooksFragment,
                 REQUST_CODE_SEARCH,
-                textViewSearch
+                binding.textViewSearch
             )
+        })
+
+        binding.vm?.state?.observe(viewLifecycleOwner, { state ->
+            if(state is Error)
+                Toast.makeText(context, R.string.error_network,Toast.LENGTH_SHORT).show()
         })
     }
 
