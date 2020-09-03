@@ -1,6 +1,9 @@
 package com.gondev.bookfinder.ui.main.fragments
 
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import com.gondev.bookfinder.BR
@@ -45,6 +48,21 @@ class ExpandableDataBindingAdapter(
      */
     private var expandedPosition = -1
 
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingViewHolder<BookEntity, BookItemBinding> =
+        super.onCreateViewHolder(parent, viewType).also { holder ->
+            holder.binding.root.setOnClickListener {
+                Timber.d("position=$holder.adapterPosition")
+                // 책장 리스트에서 아이템이 추가/삭제 되는 경우
+                // onBindViewHolder에서 넘어 온 position과
+                // 위치 값이 틀려지게 된다
+                // 정확한 위치값은 holder.adapterPosition에 있다
+                setExpandedPosition(holder.adapterPosition)
+            }
+        }
+
     override fun onBindViewHolder(
         holder: BindingViewHolder<BookEntity, BookItemBinding>,
         position: Int
@@ -55,14 +73,6 @@ class ExpandableDataBindingAdapter(
             holder.binding.expandableLayout.visibility = View.VISIBLE
         } else {
             holder.binding.expandableLayout.visibility = View.GONE
-        }
-        holder.binding.root.setOnClickListener {
-            Timber.d("position=$position")
-            // 책장 리스트에서 아이템이 추가/삭제 되는 경우
-            // onBindViewHolder에서 넘어 온 position과
-            // 위치 값이 틀려지게 된다
-            // 정확한 위치값은 holder.adapterPosition에 있다
-            setExpandedPosition(holder.adapterPosition)
         }
     }
 

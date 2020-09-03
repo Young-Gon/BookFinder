@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey
 data class BookEntity (
 	@PrimaryKey
 	val id: String,
+	val keyword: String,
 	val title: String,
 	val subtitle: String?,
 	val authors: String,

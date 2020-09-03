@@ -6,7 +6,7 @@ import com.gondev.bookfinder.model.database.entity.BookEntity
 
 @Dao
 interface BookDAO {
-    @Query("SELECT * FROM book WHERE title like '%' || :query || '%'")
+    @Query("SELECT * FROM book WHERE keyword like '%' || :query || '%'")
     fun findBooks(query: String): DataSource.Factory<Int, BookEntity>
 
     @Query("SELECT * FROM book WHERE isOwned=1")

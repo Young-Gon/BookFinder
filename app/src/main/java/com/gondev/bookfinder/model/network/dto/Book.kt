@@ -4,15 +4,16 @@ import com.gondev.bookfinder.model.database.entity.BookEntity
 
 data class Result(
 	val totalItems: Int,
-	val items: List<Book>,
+	val items: List<Book>?,
 )
 
 data class Book(
 	val id: String,
 	val volumeInfo: VolumeInfo,
 ) {
-    fun toEntity() = BookEntity(
+    fun toEntity(keyword: String) = BookEntity(
 		id = id,
+		keyword = keyword,
 		title = volumeInfo.title,
 		subtitle = volumeInfo.subtitle,
 		authors = volumeInfo.authors?.joinToString()?:"",

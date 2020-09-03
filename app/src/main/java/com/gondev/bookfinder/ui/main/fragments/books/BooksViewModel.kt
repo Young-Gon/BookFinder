@@ -40,6 +40,16 @@ class BooksViewModel(
      */
     val query = MutableLiveData("")
 
+    fun setQuery(query: String) {
+        this.query.value = query
+        offset = 0
+        this@BooksViewModel.result.value = 0
+
+        viewModelScope.launch {
+
+        }
+    }
+
     /**
      * 도서목록을 페이지 단위로 가저오기위해 어디까지 가저왔는지 나타내느 변수 입니다
      */
@@ -71,7 +81,7 @@ class BooksViewModel(
     /**
      * 총 도서 검색 결과 수 입니다
      */
-    val result = MutableLiveData("0")
+    val result = MutableLiveData(0)
 
     /**
      * 네트워크로 부터 offset 이후 부터 PAGE_SIZE 만큼 데이터를 가저 옵니다
@@ -85,7 +95,6 @@ class BooksViewModel(
             return
         }
 
-        this@BooksViewModel.result.value = "0"
         viewModelScope.launch {
             state.value = State.loading()
             try {
@@ -94,10 +103,14 @@ class BooksViewModel(
                     offset = offset,
                     pageSize = PAGE_SIZE
                 )
+                if (result.items == null) {
+                    state.value = State.success()
+                    return@launch
+                }
 
-                dao.insert(result.items.map { it.toEntity() })
-                this@BooksViewModel.result.value = result.totalItems.toString()
+                dao.insert(result.items.map { it.toEntity(query) })
                 offset += result.items.size
+                this@BooksViewModel.result.value = result.totalItems
                 state.value = State.success()
             } catch (e: Exception) {
                 Timber.e(e)

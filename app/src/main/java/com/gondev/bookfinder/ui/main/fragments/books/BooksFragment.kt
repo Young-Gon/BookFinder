@@ -72,7 +72,7 @@ class BooksFragment : Fragment() {
                     (binding.recyclerView.adapter as ExpandableDataBindingAdapter).setExpandedPosition(
                         -1
                     )
-                    binding.vm?.query?.value = data?.getStringExtra("keyword")
+                    binding.vm?.setQuery( data?.getStringExtra("keyword")?:"")
                 }
                 else ->
                     throw IllegalArgumentException("지원 하지 않는 코드입니다 (requestCode=$requestCode)")
